@@ -22,12 +22,6 @@ function seed()
             "id" => "3",
         ),
         array(
-            "fName" => "Jahanara",
-            "lName" => "Ferdous",
-            "roll" => "90",
-            "id" => "4",
-        ),
-        array(
             "fName" => "Ibrahim",
             "lName" => "Kholil",
             "roll" => "18",
