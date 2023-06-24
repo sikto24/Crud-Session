@@ -23,8 +23,13 @@ body,
   align-items: center;
 }
 
-nav ul li {
-  display: inline-block;
+nav ul {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 nav ul li a {
@@ -46,4 +51,14 @@ section.login-area-wrapper {
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+a.login {
+  font-weight: 700;
+  color: #000;
+  text-decoration: underline;
+}
+a.login:hover,
+a.login:focus {
+  color: #9b4dca;
 }

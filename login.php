@@ -1,9 +1,6 @@
 <?php
 if (!isset($_SESSION)) {
     session_start();
-} else {
-    session_destroy();
-    session_start();
 }
 $error = false;
 $fp = fopen('data/users.txt', 'r');
@@ -14,10 +11,11 @@ if ($username && $password) {
     $_SESSION['loggedin'] = false;
     $_SESSION['user'] = false;
     while ($user = fgetcsv($fp)) {
-        if ($user[0] == $username && $user[1] == md5($password)) {
+        if ($user[0] == $username && $user[1] == md5($password) && !empty($user[2])) {
 
             $_SESSION['loggedin'] = true;
             $_SESSION['user'] = $username;
+            $_SESSION['role'] = $user[2];
             header('location:index.php');
         }
         if (!$_SESSION['loggedin']) {

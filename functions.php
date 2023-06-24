@@ -1,4 +1,7 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+}
 define("DB_NAME", "C:\\xampp\\htdocs\\learnphp\\crud\\data\\data.csv");
 function seed()
 {
@@ -39,6 +42,18 @@ function seed()
             "roll" => "42",
             "id" => "6",
         ),
+        array(
+            "fName" => "Monowar",
+            "lName" => "Hossain",
+            "roll" => "103",
+            "id" => "7",
+        ),
+        array(
+            "fName" => "Rh",
+            "lName" => "Xihad",
+            "roll" => "104",
+            "id" => "8",
+        ),
 
     );
 
@@ -63,7 +78,9 @@ function getReport()
                 <tr>
                     <th>Name</th>
                     <th>Roll</th>
-                    <th>Action</th>
+                    <?php if (hasPrivilage()) : ?>
+                        <th>Action</th>
+                    <?php endif; ?>
                 </tr>
             </thead>
             <tbody>
@@ -82,7 +99,16 @@ function getReport()
 
                         <td><?php printf("%s %s", $student['fName'], $student['lName']); ?></td>
                         <td><?php printf("%s", $student['roll']); ?></td>
-                        <td><?php printf("<a href='index.php?task=edit&id=%s'>Edit</a> | <a class='delete' href='index.php?task=delete&id=%s'>Delete</a>", $student['id'], $student['id']); ?></td>
+                        <?php if (hasPrivilage()) : ?>
+                            <td>
+                                <?php if (isAdmin()) : ?>
+                                    <?php printf("<a href='index.php?task=edit&id=%s'>Edit</a> |  <a class='delete' href='index.php?task=delete&id=%s'>Delete</a>", $student['id'], $student['id']); ?>
+                                <?php endif;
+                                if (isEditor()) : ?>
+                                    <?php printf("<a href='index.php?task=edit&id=%s'>Edit</a>", $student['id']); ?>
+                                <?php endif; ?>
+                            </td>
+                        <?php endif; ?>
                     </tr>
 
                 <?php
@@ -153,6 +179,7 @@ function getStudent($id)
 
 function updateStudent($fName, $lName, $roll, $id)
 {
+
     $found = false;
     if (file_exists(DB_NAME)) {
         $fileName = file_get_contents(DB_NAME);
@@ -235,3 +262,35 @@ function printRaw()
     }
 }
 error_reporting(0);
+
+
+function isAdmin()
+{
+    if ("admin" == $_SESSION['role']) {
+        return true;
+    }
+}
+
+
+function isEditor()
+{
+    if ("editor" == $_SESSION['role']) {
+        return true;
+    }
+}
+
+function hasPrivilage()
+{
+    if (isAdmin() || isEditor()) {
+        return true;
+    }
+}
+
+
+
+// user registraction
+
+
+function userResistraction($name, $pass, $roll)
+{
+}

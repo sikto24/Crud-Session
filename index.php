@@ -1,19 +1,31 @@
 <?php
 if (!isset($_SESSION)) {
     session_start();
-} else {
-    session_destroy();
-    session_start();
 }
 require_once("functions.php");
 $info = "";
 $task = $_GET['task'] ?? 'report';
 $error = $_GET['error'] ?? '0';
+
+if ('edit' == $task || 'add' == $task) {
+    if (!hasPrivilage()) {
+        header("location: index.php");
+        die();
+    }
+}
 if ('seed' == $task) {
+    if (!hasPrivilage()) {
+        header("location: index.php");
+        die();
+    }
     seed();
     $info = "Seeding is Complete";
 }
 if ('delete' == $task) {
+    if (!hasPrivilage()) {
+        header("location: index.php");
+        die();
+    }
     $id = filter_input(INPUT_GET, 'id', FILTER_DEFAULT);
     if ($id > 0) {
         deleteUser($id);
