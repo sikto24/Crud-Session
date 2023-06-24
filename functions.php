@@ -234,3 +234,4 @@ function printRaw()
         print_r($students);
     }
 }
+error_reporting(0);

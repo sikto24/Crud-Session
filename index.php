@@ -1,4 +1,10 @@
 <?php
+if (!isset($_SESSION)) {
+    session_start();
+} else {
+    session_destroy();
+    session_start();
+}
 require_once("functions.php");
 $info = "";
 $task = $_GET['task'] ?? 'report';
@@ -27,7 +33,7 @@ if (isset($_POST['submit'])) {
 
     if ($id) {
         if ($fName != '' && $lName != '' && $roll != '') {
-            $result =  updateStudent($fName, $lName, $roll, $id);
+            $result = updateStudent($fName, $lName, $roll, $id);
             if ($result) {
                 header("location:index.php?task=report");
             } else {
@@ -64,11 +70,11 @@ if (isset($_POST['submit'])) {
     <!-- Milligram CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
     <!-- Style CSS -->
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
-
     <div class="crud-wrapper-area">
         <div class="container">
 
@@ -152,7 +158,7 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 
-    <script src="/assets/js/main.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>
